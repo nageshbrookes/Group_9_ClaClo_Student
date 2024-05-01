@@ -37,3 +37,15 @@ def optional_course_conversion(optionalCourse) -> dict:
 
 def list_Serial_optional_course(optionalCourses) -> list:
     return [optional_course_conversion(optionalCourse) for optionalCourse in optionalCourses]
+
+
+def teaching_material_conversion(teachingMaterial) -> dict:
+    return {
+        "id": str(teachingMaterial["_id"]),
+        "class_id": teachingMaterial["class_id"],
+        "topic": teachingMaterial["topic"],
+        "file_id": teachingMaterial["file_id"]
+    }
+
+def list_Serial_teaching_material(optionalCourses) -> list:
+    return [teaching_material_conversion(optionalCourse) for optionalCourse in optionalCourses]

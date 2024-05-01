@@ -1,12 +1,12 @@
 from fastapi import APIRouter
 from config.database import student_profile
-from models.model import Student_Profile
+from models.model import STUDENT_PROFILE
 from schema.schemas import list_Serial_profile
 
 profile_router = APIRouter()
 
 @profile_router.post('/studentProfile', tags=["Student Profile"])
-async def update_profile(profile: Student_Profile):
+async def update_profile(profile: STUDENT_PROFILE):
     student_profile.insert_one(dict(profile))
 
 @profile_router.get("/studentProfile/{student_Id}", tags=["Student Profile"])

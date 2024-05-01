@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.model import Users
+from models.model import USERS
 from config.database import users
 from schema.schemas import list_Serial_user
 
@@ -13,14 +13,7 @@ async def get_students():
 
 
 @router.post("/authentication", tags=["users"])
-async def insert_student(student: Users):
+async def insert_student(student: USERS):
     users.insert_one(dict(student))
     return 'true'
 
-# @router.post("/file")
-# async def fileUpload(file: UploadFile):
-#     if file.content_type != ".png" | file.content_type != ".jpeg":
-#         raise HTTPException(400, detail='invalid document type')
-#     else :
-#         data = json.loads(file.file.read())
-#     content
