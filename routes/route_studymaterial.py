@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, HTTPException, Path, UploadFile, File, Response, Depends
+from fastapi import APIRouter, Body, HTTPException, Path, UploadFile, File, Response
 # from models.study_materials import StudyMaterial
 from config.database import teacher_db
 # from auth.jwt_handler import signJWT
@@ -30,7 +30,7 @@ async def get_study_materials():
             "file_id": file_id,
             "upload_date": upload_date
         })
-        
+    
     return study_materials
 
 

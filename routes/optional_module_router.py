@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from config.database import optional_course, student_profile
-from models.model import OPTIONAL_MODULE_IN_PROGRAM, MODULE_INFO
+from models.student_model import OPTIONAL_MODULE_IN_PROGRAM, MODULE_INFO
 from schema.schemas import list_Serial_optional_course
 
 optional_router = APIRouter()
