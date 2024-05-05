@@ -20,17 +20,18 @@ bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="authenticate")
 
 class createuserReq(BaseModel):
-    studentId: str
+    username: str
     password: str
 
 class Token(BaseModel):
     access_token: str
     token_type: str
+    status: str
 
 @router.post("/user", tags=['Authentication'], status_code=status.HTTP_201_CREATED)
 async def create_user(create_user_req: createuserReq):
     createUserModel = {
-        'username' : create_user_req.studentId,
+        'username' : create_user_req.username,
         'hasedpassword' : bcrypt_context.hash(create_user_req.password)
     }
     users.insert_one(dict(createUserModel))
@@ -40,8 +41,14 @@ async def create_user(create_user_req: createuserReq):
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ):
-    user = authenticate_user(form_data.username, form_data.password)
-    print(user)
+    try:
+        user = authenticate_user(form_data.username, form_data.password)
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -56,7 +63,7 @@ async def login_for_access_token(
         user, expires_delta=access_token_expires
     )
     print(access_token)
-    return Token(access_token=access_token, token_type="bearer")
+    return Token(access_token=access_token, token_type="bearer", status= 'Authentication is Success')
 
 
 # fetch the details and authenticate the user returns userName
