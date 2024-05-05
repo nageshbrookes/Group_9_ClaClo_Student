@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from config.database import student_profile
-from models.model import STUDENT_PROFILE
+from models.student_model import STUDENT_PROFILE
 from schema.schemas import list_Serial_profile
 
 profile_router = APIRouter()

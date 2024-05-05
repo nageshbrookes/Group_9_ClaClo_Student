@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class USERS(BaseModel):
     name: str
@@ -49,6 +49,14 @@ class TEACHING_MATERIAL(BaseModel):
 
 
 class EXCERCISE_AND_ASSIGNMENT(BaseModel):
+    excercises_id: str
+    student_Id: str
+    student_email: str
+    excercises_name: str
+    class_id: str
+
+
+
+class CREATE_USER_REQUEST(BaseModel):
     studentId: str
-    classId: str
-    assignmentName: str
+    password: str
