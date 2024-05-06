@@ -74,7 +74,7 @@ async def upload_excercise_and_assignment(user: userdependancy, student_Id:str, 
     return {"message": "Study material uploaded successfully"}
 
 
-@assignmentRouter.get("/get-assignments/", tags=["Excercise and Assignement"])
+@assignmentRouter.get("/get-exercise-assignment/", tags=["Excercise and Assignement"])
 async def get_assignment(user: userdependancy):
     if user is None:
         raise HTTPException(status_code=401, details='Authentication failed')
@@ -103,7 +103,7 @@ async def get_assignment(user: userdependancy):
     return assignments
     
 
-@assignmentRouter.get("/download-assignment/{student_id}/{exercise_id}", tags=["Excercise and Assignement"])
+@assignmentRouter.get("/download-excercise-and-assignment/{student_id}/{exercise_id}", tags=["Excercise and Assignement"])
 async def download_assignment(user: userdependancy, student_id: str,
                                     exercise_id: str):
     if user is None:
