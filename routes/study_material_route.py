@@ -1,8 +1,5 @@
-from fastapi import APIRouter, Body, HTTPException, Path, UploadFile, File, Response,Depends
-# from models.study_materials import StudyMaterial
+from fastapi import APIRouter, HTTPException,  Response,Depends
 from config.database import teacher_db
-# from auth.jwt_handler import signJWT
-# from auth.auth_bearer import jwtBearer
 from bson import ObjectId
 from datetime import datetime
 from gridfs import GridFS
@@ -14,9 +11,7 @@ from config.database import class_collection
 studyMaterialRouter = APIRouter()
 fs = GridFS(teacher_db)
 
-
 userdependancy = Annotated[dict, Depends(get_current_user)]
-
 
 @studyMaterialRouter.get("/get-teaching-modules/{student_email}", tags=["Teaching Material"])
 async def get_module_info(user: userdependancy, student_email: str):
@@ -34,16 +29,18 @@ async def get_module_info(user: userdependancy, student_email: str):
 
 
 
-
-
-
 @studyMaterialRouter.get("/get-teaching-material/{class_id}",  tags=["Teaching Material"])
 async def get_teaching_material(user: userdependancy, class_id: str):
     if user is None:
         raise HTTPException(status_code=401, details='Authentication failed')
+    
+    try:
+        teaching_material = teacher_db.studymaterial_collection.find({'class_id': class_id})
+    except:
+        raise HTTPException(status_code=200, details='Data not found')
 
     study_materials = []
-    for study_material in teacher_db.studymaterial_collection.find({'class_id': class_id}):
+    for study_material in teaching_material:
         class_id = str(study_material["class_id"])
         topic = study_material["topic"]
         file_id = study_material["file_id"]
@@ -56,7 +53,6 @@ async def get_teaching_material(user: userdependancy, class_id: str):
         })
     
     return study_materials
-
 
 
 @studyMaterialRouter.get("/download-teaching-material/{class_id}/{study_material_id}",  tags=["Teaching Material"])
