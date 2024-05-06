@@ -23,10 +23,12 @@ class createuserReq(BaseModel):
     username: str
     password: str
 
+
 class Token(BaseModel):
     access_token: str
     token_type: str
     status: str
+
 
 @router.post("/user", tags=['Authentication'], status_code=status.HTTP_201_CREATED)
 async def create_user(create_user_req: createuserReq):
@@ -36,7 +38,8 @@ async def create_user(create_user_req: createuserReq):
     }
     users.insert_one(dict(createUserModel))
     return 'User is successfully created'
- 
+
+
 @router.post("/authenticate", tags=['Authentication'])
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
@@ -78,6 +81,7 @@ def authenticate_user(username: str, password: str):
     if not bcrypt_context.verify(password, passwordHashed):
         return False
     return userName
+
 
 # Acreating access token based on time and username
 def create_access_token(username: str, expires_delta):
