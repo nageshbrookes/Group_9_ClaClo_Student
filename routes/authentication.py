@@ -80,7 +80,7 @@ def authenticate_user(username: str, password: str):
     return userName
 
 # Acreating access token based on time and username
-def create_access_token(username: str, expires_delta: timedelta):
+def create_access_token(username: str, expires_delta):
     encode = {'sub': username}
     expires = datetime.now() + expires_delta
     encode.update({"exp": expires})
